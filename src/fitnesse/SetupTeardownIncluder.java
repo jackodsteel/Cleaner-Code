@@ -2,7 +2,6 @@ package fitnesse;
 
 public class SetupTeardownIncluder {
     private final PageData pageData;
-    private boolean isSuite;
     private final WikiPage testPage;
     private final StringBuffer newPageContent;
     private final PageCrawler pageCrawler;
@@ -25,9 +24,8 @@ public class SetupTeardownIncluder {
     }
 
     private String render(boolean isSuite) throws Exception {
-        this.isSuite = isSuite;
         if (isTestPage()) {
-            includeSetupAndTeardownPages();
+            includeSetupAndTeardownPages(isSuite);
         }
         return pageData.getHtml();
     }
@@ -36,15 +34,15 @@ public class SetupTeardownIncluder {
         return pageData.hasAttribute("Test");
     }
 
-    private void includeSetupAndTeardownPages() throws Exception {
-        includeSetupPages();
+    private void includeSetupAndTeardownPages(boolean isSuite) throws Exception {
+        includeSetupPages(isSuite);
         includePageContent();
-        includeTeardownPages();
+        includeTeardownPages(isSuite);
         updatePageContent();
     }
 
 
-    private void includeSetupPages() throws Exception {
+    private void includeSetupPages(boolean isSuite) throws Exception {
         if (isSuite) {
             includeSuiteSetupPage();
         }
@@ -63,7 +61,7 @@ public class SetupTeardownIncluder {
         newPageContent.append(pageData.getContent());
     }
 
-    private void includeTeardownPages() throws Exception {
+    private void includeTeardownPages(boolean isSuite) throws Exception {
         includeTeardownPage();
         if (isSuite) {
             includeSuiteTeardownPage();
