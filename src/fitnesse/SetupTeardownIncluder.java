@@ -25,13 +25,13 @@ public class SetupTeardownIncluder {
         if (isTestPage()) {
             StringBuffer newPageContent = new StringBuffer();
             if (isSuite) {
-               newPageContent.append(include(SuiteResponder.SUITE_SETUP_NAME, "-setup"));
+               newPageContent.append(getIncludePageDirective(SuiteResponder.SUITE_SETUP_NAME, "-setup"));
             }
-            newPageContent.append(include("SetUp", "-setup"));
+            newPageContent.append(getIncludePageDirective("SetUp", "-setup"));
             newPageContent.append(pageData.getContent());
-            newPageContent.append(include("TearDown", "-teardown"));
+            newPageContent.append(getIncludePageDirective("TearDown", "-teardown"));
             if (isSuite) {
-                newPageContent.append(include(SuiteResponder.SUITE_TEARDOWN_NAME, "-teardown"));
+                newPageContent.append(getIncludePageDirective(SuiteResponder.SUITE_TEARDOWN_NAME, "-teardown"));
             }
             pageData.setContent(newPageContent.toString());
         }
@@ -42,7 +42,7 @@ public class SetupTeardownIncluder {
         return pageData.hasAttribute("Test");
     }
 
-    private String include(String pageName, String arg) throws Exception {
+    private String getIncludePageDirective(String pageName, String arg) throws Exception {
         WikiPage inheritedPage = PageCrawlerImpl.getInheritedPage(pageName, testPage);
         if (inheritedPage != null) {
             String pagePathName = getPathNameForPage(inheritedPage);
