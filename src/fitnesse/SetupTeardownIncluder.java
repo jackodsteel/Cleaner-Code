@@ -3,7 +3,6 @@ package fitnesse;
 public class SetupTeardownIncluder {
     private final PageData pageData;
     private final WikiPage testPage;
-    private final StringBuffer newPageContent;
     private final PageCrawler pageCrawler;
 
 
@@ -20,19 +19,19 @@ public class SetupTeardownIncluder {
         this.pageData = pageData;
         testPage = pageData.getWikiPage();
         pageCrawler = testPage.getPageCrawler();
-        newPageContent = new StringBuffer();
     }
 
     private String render(boolean isSuite) throws Exception {
         if (isTestPage()) {
+            StringBuffer newPageContent = new StringBuffer();
             if (isSuite) {
-                include(SuiteResponder.SUITE_SETUP_NAME, "-setup");
+               newPageContent.append(include(SuiteResponder.SUITE_SETUP_NAME, "-setup"));
             }
-            include("SetUp", "-setup");
+            newPageContent.append(include("SetUp", "-setup"));
             newPageContent.append(pageData.getContent());
-            include("TearDown", "-teardown");
+            newPageContent.append(include("TearDown", "-teardown"));
             if (isSuite) {
-                include(SuiteResponder.SUITE_TEARDOWN_NAME, "-teardown");
+                newPageContent.append(include(SuiteResponder.SUITE_TEARDOWN_NAME, "-teardown"));
             }
             pageData.setContent(newPageContent.toString());
         }
@@ -43,12 +42,13 @@ public class SetupTeardownIncluder {
         return pageData.hasAttribute("Test");
     }
 
-    private void include(String pageName, String arg) throws Exception {
+    private String include(String pageName, String arg) throws Exception {
         WikiPage inheritedPage = PageCrawlerImpl.getInheritedPage(pageName, testPage);
         if (inheritedPage != null) {
             String pagePathName = getPathNameForPage(inheritedPage);
-            buildIncludeDirective(pagePathName, arg);
+            return buildIncludeDirective(pagePathName, arg);
         }
+        return "";
     }
 
     private String getPathNameForPage(WikiPage page) throws Exception {
@@ -56,7 +56,7 @@ public class SetupTeardownIncluder {
         return PathParser.render(pagePath);
     }
 
-    private void buildIncludeDirective(String pagePathName, String arg) {
-        newPageContent.append(String.format("\n!include %s .%s\n", arg, pagePathName));
+    private String buildIncludeDirective(String pagePathName, String arg) {
+        return String.format("\n!include %s .%s\n", arg, pagePathName);
     }
 }
