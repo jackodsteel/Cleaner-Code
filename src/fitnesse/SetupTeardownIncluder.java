@@ -1,11 +1,11 @@
 package fitnesse;
 
 public class SetupTeardownIncluder {
-    private PageData pageData;
+    private final PageData pageData;
     private boolean isSuite;
-    private WikiPage testPage;
-    private StringBuffer newPageContent;
-    private PageCrawler pageCrawler;
+    private final WikiPage testPage;
+    private final StringBuffer newPageContent;
+    private final PageCrawler pageCrawler;
 
 
     public static String render(PageData pageData) throws Exception {
