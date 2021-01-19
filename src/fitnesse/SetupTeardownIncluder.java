@@ -25,59 +25,22 @@ public class SetupTeardownIncluder {
 
     private String render(boolean isSuite) throws Exception {
         if (isTestPage()) {
-            includeSetupAndTeardownPages(isSuite);
+            if (isSuite) {
+                include(SuiteResponder.SUITE_SETUP_NAME, "-setup");
+            }
+            include("SetUp", "-setup");
+            newPageContent.append(pageData.getContent());
+            include("TearDown", "-teardown");
+            if (isSuite) {
+                include(SuiteResponder.SUITE_TEARDOWN_NAME, "-teardown");
+            }
+            pageData.setContent(newPageContent.toString());
         }
         return pageData.getHtml();
     }
 
     private boolean isTestPage() throws Exception {
         return pageData.hasAttribute("Test");
-    }
-
-    private void includeSetupAndTeardownPages(boolean isSuite) throws Exception {
-        includeSetupPages(isSuite);
-        includePageContent();
-        includeTeardownPages(isSuite);
-        updatePageContent();
-    }
-
-
-    private void includeSetupPages(boolean isSuite) throws Exception {
-        if (isSuite) {
-            includeSuiteSetupPage();
-        }
-        includeSetupPage();
-    }
-
-    private void includeSuiteSetupPage() throws Exception {
-        include(SuiteResponder.SUITE_SETUP_NAME, "-setup");
-    }
-
-    private void includeSetupPage() throws Exception {
-        include("SetUp", "-setup");
-    }
-
-    private void includePageContent() throws Exception {
-        newPageContent.append(pageData.getContent());
-    }
-
-    private void includeTeardownPages(boolean isSuite) throws Exception {
-        includeTeardownPage();
-        if (isSuite) {
-            includeSuiteTeardownPage();
-        }
-    }
-
-    private void includeTeardownPage() throws Exception {
-        include("TearDown", "-teardown");
-    }
-
-    private void includeSuiteTeardownPage() throws Exception {
-        include(SuiteResponder.SUITE_TEARDOWN_NAME, "-teardown");
-    }
-
-    private void updatePageContent() throws Exception {
-        pageData.setContent(newPageContent.toString());
     }
 
     private void include(String pageName, String arg) throws Exception {
