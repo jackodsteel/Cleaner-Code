@@ -44,15 +44,11 @@ public class SetupTeardownIncluder {
     }
 
     private void include(String pageName, String arg) throws Exception {
-        WikiPage inheritedPage = findInheritedPage(pageName);
+        WikiPage inheritedPage = PageCrawlerImpl.getInheritedPage(pageName, testPage);
         if (inheritedPage != null) {
             String pagePathName = getPathNameForPage(inheritedPage);
             buildIncludeDirective(pagePathName, arg);
         }
-    }
-
-    private WikiPage findInheritedPage(String pageName) throws Exception {
-        return PageCrawlerImpl.getInheritedPage(pageName, testPage);
     }
 
     private String getPathNameForPage(WikiPage page) throws Exception {
