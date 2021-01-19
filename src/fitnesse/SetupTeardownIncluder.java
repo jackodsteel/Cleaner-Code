@@ -1,7 +1,4 @@
-package fitnesse.html;
-
-import fitnesse.responders.run.SuiteResponder;
-import fitnesse.wiki.*;
+package fitnesse;
 
 public class SetupTeardownIncluder {
     private PageData pageData;
