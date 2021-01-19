@@ -26,8 +26,9 @@ public class SetupTeardownIncluder {
 
     private String render(boolean isSuite) throws Exception {
         this.isSuite = isSuite;
-        if (isTestPage())
+        if (isTestPage()) {
             includeSetupAndTeardownPages();
+        }
         return pageData.getHtml();
     }
 
@@ -44,8 +45,9 @@ public class SetupTeardownIncluder {
 
 
     private void includeSetupPages() throws Exception {
-        if (isSuite)
+        if (isSuite) {
             includeSuiteSetupPage();
+        }
         includeSetupPage();
     }
 
@@ -63,8 +65,9 @@ public class SetupTeardownIncluder {
 
     private void includeTeardownPages() throws Exception {
         includeTeardownPage();
-        if (isSuite)
+        if (isSuite) {
             includeSuiteTeardownPage();
+        }
     }
 
     private void includeTeardownPage() throws Exception {
