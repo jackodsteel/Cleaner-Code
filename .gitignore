@@ -1,0 +1,4 @@
+# Ignore basically any config stuff since this is just a code example project
+
+*.iml
+.idea/
