@@ -57,11 +57,6 @@ public class SetupTeardownIncluder {
     }
 
     private void buildIncludeDirective(String pagePathName, String arg) {
-        newPageContent
-                .append("\n!include ")
-                .append(arg)
-                .append(" .")
-                .append(pagePathName)
-                .append("\n");
+        newPageContent.append(String.format("\n!include %s .%s\n", arg, pagePathName));
     }
 }
